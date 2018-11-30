@@ -1,30 +1,54 @@
 
 _users = {
-    'paul': {
-        'name': 'Pavel Okopnyi',
-        'job_title': 'PhD Candidate',
-        'workplace': 'UiB'
+    'Roman': {
+        'name': 'Roman Ivanov',
+        'specialization': 'Musician',
+        'game dev. experience':'None'
     },
 
-    'igor': {
-        'name': 'Igor Novikov',
-        'job_title': 'Designer',
-        'workplace': 'ArtLebedev'
+    'vaas': {
+        'name': 'Vasiliy Smirnov',
+        'specialization': 'Designer',
+        'game dev. experience': '2 years'
     },
 
-    'boris': {
-        'name': 'Boris Ivanov',
-        'job_title': 'Cat',
-        'workplace': 'HSE Sedova'
+    'griwa': {
+        'name': 'Grigoriy Potapenko',
+        'specialization': 'Programmer',
+        'game dev. experience': '1 years'
     },
 
-    'alena': {
-        'name': 'Alena Popova',
-        'job_title': 'Data Scientist',
-        'workplace': 'ITMO'
-    }
+    'Alex': {
+        'name': 'Alexey Moroz',
+        'specialization': 'Sound designer',
+        'game dev. experience': 'None'
+    },
+    'bro': {
+        'name': 'Rostislav Novikov',
+        'specialization': 'Screenwriter',
+        'game dev. experience': '5'
+    },
+    'len9': {
+        'name': 'Leonid Geishtor',
+        'specialization': '3D modelling',
+        'game dev. experience': '2'
+    },
+    'lima': {
+        'name': 'Vladimir Serebryakov',
+        'specialization': 'Community Manager',
+        'game dev. experience': '1'
+    },
+    'sor': {
+        'name': 'Vladislav Popov',
+        'specialization': 'Tester',
+        'game dev. experience': 'None'
+    },
+    'reg': {
+        'name': 'Denis Mrezhin',
+        'specialization': 'Programmer',
+        'game dev. experience': '3'
+    },
 }
-
 
 _user_list = []
 
