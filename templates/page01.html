@@ -9,7 +9,19 @@
 
     <div class="starter-template">
         <h1>Game Dev Mates</h1>
-        <p class="lead">Use this service to find mates for game development.</p>
+        <p class="lead">Find your dream team.<br> Create games.</p>
+    </div>
+
+    <div class="container">
+        <h3>Users: </h3>
+        {% for user in users %}
+            <span class="label label-default">
+                <a href="/user/{{user.login}}/">{{user.name}}</a>
+            </span>
+            <br />
+        {% endfor%}
+        <hr>
+        <a href="/add_user">Add new user</a>
     </div>
 
     <div class="container">

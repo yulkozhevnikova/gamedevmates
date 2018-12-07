@@ -1,19 +1,75 @@
+# Import sqlite3 module (in standart library - do not need to install)
 import sqlite3
 
+# Connect ot Database - in local file app.db
 conn = sqlite3.connect('app.db')
-
+# Create a cursor - a
 c = conn.cursor()
 
+
 c.execute('''
-CREATE TABLE users_info (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
-          login TEXT,
-          specialization TEXT,
-          gamedevexp TEXT
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    specialization TEXT,
+    gamedevexp TEXT
 )
 ''')
 
+conn.commit()
+
+# Adding some data (feel free to use you own data)
+c.execute('''
+    INSERT INTO users (name, specialization, gamedevexp)
+    VALUES ("Volodya", "Tester", "3")
+''')
+conn.commit()
+
+c.execute('''
+    ALTER TABLE users
+    ADD COLUMN login TEXT
+''')
+conn.commit()
+
+c.execute('''
+    UPDATE users
+    SET login="vlad"
+    WHERE name='Volodya Smirnov'
+''')
+conn.commit()
+
+
+c.execute('''
+    ALTER TABLE users
+    ADD COLUMN photo TEXT
+''')
+conn.commit()
+
+
+# Our base data
+users = [
+    {
+        'login': 'Vas',
+        'name': 'Vasiliy',
+        'specialization': 'Designer',
+        'gamedevexp': '3'
+    },
+    {
+        'login': 'jimbo',
+        'name': 'Roman Vlasov',
+        'specialization': 'Composer',
+        'gamedevexp': '2'
+    }
+]
+# Adding it in the loop
+for user in users:
+    c.execute("INSERT INTO users "
+              "('login', 'name', 'gamedevexp', 'specialization')"
+              "VALUES "
+              "('{login}','{name}','{gamedevexp}','{specialization}')".format(**user))
+    conn.commit()
+
+# Add second table
 c.execute('''
 CREATE TABLE room_information (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,7 +81,16 @@ CREATE TABLE room_information (
           FOREIGN KEY (user_name) REFERENCES users(name)       
 )
 ''')
+conn.commit()
 
+c.execute('''
+    INSERT INTO room_information (room_name, mates_required, user_name)
+    VALUES
+    ("Beholder", 8 , "Volodya")
+''')
+conn.commit()
+
+# Many to many connection
 c.execute('''
 CREATE TABLE users_rooms (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,103 +101,18 @@ CREATE TABLE users_rooms (
 )
 ''')
 
+conn.commit()
+
+c.execute("INSERT INTO users_rooms (user_id, room_id) VALUES (1, 1)")
+conn.commit()
+c.execute("INSERT INTO users_rooms (user_id, room_id) VALUES (2, 1)")
+conn.commit()
 
 
-c.execute("INSERT into users_info values (1, 'Vasya', 'Vasek', 'Designer', 'None') ")
-c.execute("INSERT into users_info values (15, 'Dima', 'Dimas', 'Manager', 'None') ")
+c.execute("SELECT u.* "
+          "FROM users_rooms ue "
+          "JOIN users u ON (u.id=ue.user_id) "
+          "WHERE ue.room_id=1")
 
 
-c.execute("select * from users")
-
-list (c.fetchall())
-
-
-c.execute("INSERT into users_info values (1, 'Vasya', 'Designer', 'None') ")
-c.execute("INSERT into users_info values (2, 'Dima', 'Manager', 'None') ")
-
-
-c.execute("SELECT id FROM users")
-results = c.fetchall()
-print(results)
-
-
-
-users_info = [
-    {
-        'ID': 1,
-        'login': 'Roman',
-        'name': 'Roman Ivanov',
-        'specialization': 'Musician',
-        'gamedevexp':'None'
-    },
-
-    {
-        'ID': 2,
-        'login': 'vaas',
-        'name': 'Vasiliy Smirnov',
-        'specialization': 'Designer',
-        'gamedevexp': '2 years'
-    },
-
-    {
-        'ID': 3,
-        'login': 'griwa',
-        'name': 'Grigoriy Potapenko',
-        'specialization': 'Programmer',
-        'gamedevexp': '1 years'
-    },
-
-     {
-        'ID': 4,
-        'login': 'Alex',
-        'name': 'Alexey Moroz',
-        'specialization': 'Sound designer',
-        'gamedevexp': 'None'
-    },
-     {
-        'ID': 5,
-        'login': 'bro',
-        'name': 'Rostislav Novikov',
-        'specialization': 'Screenwriter',
-        'gamedevexp': '5'
-    },
-     {
-        'ID': 6,
-        'login': 'len9',
-        'name': 'Leonid Geishtor',
-        'specialization': '3D modelling',
-        'gamedevexp': '2'
-    },
-     {
-        'ID': 7,
-        'login': 'lima',
-        'name': 'Vladimir Serebryakov',
-        'specialization': 'Community Manager',
-        'gamedevexp': '1'
-    },
-    {
-        'ID': 8,
-        'login': 'sor',
-        'name': 'Vladislav Popov',
-        'specialization': 'Tester',
-        'gamedevexp': 'None'
-    },
-    {
-        'ID': 9,
-        'login': 'reg',
-        'name': 'Denis Mrezhin',
-        'specialization': 'Programmer',
-        'gamedevexp': '3'
-    },
-]
-
-
-
-# Adding it in the loop
-for user in users_info:
-    c.execute("INSERT INTO users_info "
-              "(login, name, specialization, gamedevexp) "
-              "VALUES "
-              "('{login}','{name}','{specialization}','{gamedevexp}')".format(**user))
-    conn.commit()
-
+conn.close()
