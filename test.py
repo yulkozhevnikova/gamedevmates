@@ -91,7 +91,12 @@ def add_user():
 @app.route('/search')
 def search_for_person():
     q = request.args.get('query')
-    users = db.get_users_by_name(q)
+    conn = sqlite3.connect('app.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE login like '%" + q + "%'")
+    users = list(c.fetchall())
+    conn.close()
     return render_template('search_results.html', q=q, users=users)
 
 
