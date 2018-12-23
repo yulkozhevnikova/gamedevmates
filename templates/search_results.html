@@ -7,16 +7,19 @@
 </head>
 <body>
     <div class="container">
-        You searched for {{q}}
+       You searched for {{q}}
         <br>
-        {% for user in users %}
+        {% for room in room_information: %}
             <div class="card">
               <div class="card-body">
-                {{user.name}}
+                {{room_information.room_name}}
               </div>
             </div>
         {% endfor %}
-
     </div>
 </body>
 </html>
+
+
+
+

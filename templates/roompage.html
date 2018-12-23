@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{room_info.room_name}}</title>
 </head>
 <body>
+<style>
+  body { background: url(https://hdqwalls.com/download/simple-gray-abstract-background-wi-1920x1080.jpg); }
+</style>
 
+<div class="starter-template">
+        <h1><font size="14" color="white" face="Arial"> Our project is called {{room_info.room_name}}</font></h1>
+        <p class="lead"> <font size="10" color="white" face="Arial"> Vacancies required: {{room_info.positions_required}} </font></p>
+        <p class="lead"> <font size="10" color="white" face="Arial"> Users: {{user_room.login}} </font></p>
+    </div>
 </body>
 </html>
+
+
+

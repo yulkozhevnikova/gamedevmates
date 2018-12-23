@@ -207,7 +207,8 @@ CREATE TABLE room_information (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           room_name TEXT,
           positions_required TEXT,
-          admin_name TEXT    
+          admin_name TEXT,  
+          users_id INT
 )
 ''')
 conn.commit()
@@ -217,51 +218,29 @@ room_information = [
     {'id': '1',
      'room_name': 'CS',
      'positions_required': 'Tester',
-     'admin_name': 'kolyan'
+     'admin_name': 'kolyan',
+     'users_id' : '1,2,3,4'
      }
 
 ]
 
 for room_info in room_information:
     c.execute("INSERT INTO room_information "
-              "('id', 'room_name', 'positions_required', 'admin_name')"
+              "('id', 'room_name', 'positions_required', 'admin_name', 'users_id')"
               "VALUES "
-              "('{id}','{room_name}','{positions_required}','{admin_name}')".format(**room_info))
+              "('{id}','{room_name}','{positions_required}','{admin_name}', '{users_id}')".format(**room_info))
     conn.commit()
 
 c.execute('''
-    INSERT INTO room_information (id, room_name, positions_required, admin_name)
+    INSERT INTO room_information (id, room_name, positions_required, admin_name, users_id)
     VALUES
-    (2, "Best Game Ever", "Tester, Designer, Programmer" , "Vas"),
-    (3, "Worst Game Ever", "Composer, Programmer" , "sarah"),
-    (4, "Just a Game", "Programmer, Manager, " , "lizza"),
-    (5, "Test Game", "Programmer, Programmer", "jesus")
+    (2, "Best Game Ever", "Tester, Designer, Programmer" , "Vas", '5,6,7,8'),
+    (3, "Worst Game Ever", "Composer, Programmer" , "sarah",'9,10,11,12'),
+    (4, "Just a Game", "Programmer, Manager" , "lizza",'13,14,15,16'),
+    (5, "Test Game", "Programmer, Programmer", "jesus",'17,18,19,20')
 ''')
 conn.commit()
 
-# Many to many connection
-c.execute('''
-CREATE TABLE users_rooms (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          users_id INTEGER,
-          room_id INTEGER,
-          FOREIGN KEY (users_id) REFERENCES users(id),
-          FOREIGN KEY (room_id) REFERENCES room_information(id)       
-)
-''')
-
-conn.commit()
-
-c.execute("INSERT INTO users_rooms (users_id, room_id) VALUES (1, 1)")
-conn.commit()
-c.execute("INSERT INTO users_rooms (users_id, room_id) VALUES (2, 1)")
-conn.commit()
-
-
-c.execute("SELECT u.* "
-          "FROM users_rooms ue "
-          "JOIN users u ON (u.id=ue.user_id) "
-          "WHERE ue.room_id=1")
 
 
 conn.close()

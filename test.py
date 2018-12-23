@@ -25,7 +25,7 @@ def room_inf():
     return render_template('page03.html', room_information=room_information)
 
 
-@app.route('/user')
+@app.route('/user/')
 def hello_world():
     # Connecting to DB
     conn = sqlite3.connect('app.db')
@@ -60,17 +60,18 @@ def user_page(login):
 
 @app.route('/room_info/<room_name>/')
 def room_page(room_name):
-    conn = sqlite3.connect('app.db')
-    conn.row_factory = dict_factory
-    c = conn.cursor()
+     conn = sqlite3.connect('app.db')
+     conn.row_factory = dict_factory
+     c = conn.cursor()
 
-    # Handler logic here
-    c.execute("SELECT * FROM room_information WHERE room_name='%s'" % room_name)
-    room_data = c.fetchone()
+     c.execute("SELECT * FROM users")
+     users = c.fetchone()
+     c.execute("SELECT * FROM room_information WHERE room_name='%s'" % room_name)
+     room_data = c.fetchone()
 
-    # Close connection
-    conn.close()
-    return render_template("roompage.html", room_info=room_data)
+     conn.close()
+     return render_template("roompage.html", room_info=room_data, user_room=users)
+
 
 
 
@@ -89,7 +90,6 @@ def add_user():
         user['specialization'] = request.form.get('specialization')
         user['gamedevexp'] = request.form.get('gamedevexp')
         user['photo'] = request.form.get('photo')
-
 
         # save to database
         conn = sqlite3.connect('app.db')
@@ -117,6 +117,43 @@ def add_user():
         error_message=error_message
     )
 
+@app.route('/create project/', methods=['GET', 'POST'])
+def create_project():
+
+    project_created = False
+    error_message = ""
+
+    if request.method == 'POST':
+     room = {}
+     room['room_name'] = request.form.get('room_name')
+     room['positions_required'] = request.form.get('positions_required')
+     room['admin_name'] = request.form.get('admin_name')
+
+
+    conn = sqlite3.connect('app.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM room_information where room_name='%s'" % room['room_name'])
+    if c.fetchone():
+        # user with this login is already in my database
+        error_message = "Project_exists"
+    else:
+        c.execute("INSERT INTO room_information "
+                  "('room_name', 'positions_required', 'admin_name', 'users_id')"
+                  "VALUES "
+                  "('{room_name}','{positions_required}','{admin_name}','{users_id}')"
+                  "".format(**room))
+        conn.commit()
+        room_created = True
+    conn.close()
+
+    return render_template(
+         "create_project.html",
+         room_created = room_created,
+        error_message=error_message
+      )
+
+
+
 
 @app.route('/search')
 def search_for_person():
@@ -124,10 +161,11 @@ def search_for_person():
     conn = sqlite3.connect('app.db')
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE login like '%" + q + "%'")
-    users = list(c.fetchall())
+    c.execute("SELECT * FROM room_information WHERE positions_required LIKE '%{q}%' "
+    "".format(q=q))
+    room_data = list(c.fetchall())
     conn.close()
-    return render_template('search_results.html', q=q, users=users)
+    return render_template('search_results.html', q=q, room_information=room_data)
 
 
 
