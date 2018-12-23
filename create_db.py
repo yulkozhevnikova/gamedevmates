@@ -207,8 +207,7 @@ CREATE TABLE room_information (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           room_name TEXT,
           positions_required TEXT,
-          admin_name TEXT,  
-          users_id INT
+          admin_name TEXT
 )
 ''')
 conn.commit()
@@ -218,26 +217,25 @@ room_information = [
     {'id': '1',
      'room_name': 'CS',
      'positions_required': 'Tester',
-     'admin_name': 'kolyan',
-     'users_id' : '1,2,3,4'
+     'admin_name': 'kolyan'
      }
 
 ]
 
 for room_info in room_information:
     c.execute("INSERT INTO room_information "
-              "('id', 'room_name', 'positions_required', 'admin_name', 'users_id')"
+              "('id', 'room_name', 'positions_required', 'admin_name')"
               "VALUES "
-              "('{id}','{room_name}','{positions_required}','{admin_name}', '{users_id}')".format(**room_info))
+              "('{id}','{room_name}','{positions_required}','{admin_name}')".format(**room_info))
     conn.commit()
 
 c.execute('''
-    INSERT INTO room_information (id, room_name, positions_required, admin_name, users_id)
+    INSERT INTO room_information (id, room_name, positions_required, admin_name,)
     VALUES
-    (2, "Best Game Ever", "Tester, Designer, Programmer" , "Vas", '5,6,7,8'),
-    (3, "Worst Game Ever", "Composer, Programmer" , "sarah",'9,10,11,12'),
-    (4, "Just a Game", "Programmer, Manager" , "lizza",'13,14,15,16'),
-    (5, "Test Game", "Programmer, Programmer", "jesus",'17,18,19,20')
+    (2, "Best Game Ever", "Tester, Designer, Programmer" , "Vas"),
+    (3, "Worst Game Ever", "Composer, Programmer" , "sarah"),
+    (4, "Just a Game", "Programmer, Manager" , "lizza"),
+    (5, "Test Game", "Programmer, Programmer", "jesus")
 ''')
 conn.commit()
 

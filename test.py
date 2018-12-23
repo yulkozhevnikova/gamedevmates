@@ -117,39 +117,38 @@ def add_user():
         error_message=error_message
     )
 
-@app.route('/create project/', methods=['GET', 'POST'])
-def create_project():
+@app.route('/project', methods=['GET', 'POST'])
+def project():
 
-    project_created = False
+    room_created = False
     error_message = ""
 
     if request.method == 'POST':
-     room = {}
-     room['room_name'] = request.form.get('room_name')
-     room['positions_required'] = request.form.get('positions_required')
-     room['admin_name'] = request.form.get('admin_name')
+        room_info = {}
+        room_info['room_name'] = request.form.get('room_name')
+        room_info['positions_required'] = request.form.get('positions_required')
+        room_info['admin_name'] = request.form.get('admin_name')
 
 
-    conn = sqlite3.connect('app.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM room_information where room_name='%s'" % room['room_name'])
-    if c.fetchone():
-        # user with this login is already in my database
-        error_message = "Project_exists"
-    else:
-        c.execute("INSERT INTO room_information "
-                  "('room_name', 'positions_required', 'admin_name', 'users_id')"
+        conn = sqlite3.connect('app.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM room_information where room_name='%s'" % room_info['room_name'])
+        if c.fetchone():
+            error_message = "Project_exists"
+        else:
+            c.execute("INSERT INTO room_information "
+                  "('room_name', 'positions_required', 'admin_name')"
                   "VALUES "
-                  "('{room_name}','{positions_required}','{admin_name}','{users_id}')"
-                  "".format(**room))
-        conn.commit()
-        room_created = True
-    conn.close()
+                  "('{room_name}','{positions_required}','{admin_name}')"
+                  "".format(**room_info))
+            conn.commit()
+            room_created = True
+        conn.close()
 
     return render_template(
-         "create_project.html",
-         room_created = room_created,
-        error_message=error_message
+         "project.html",
+         room_created=room_created,
+         error_message=error_message
       )
 
 
