@@ -104,6 +104,7 @@ def add_user():
             conn.commit()
             user_created = True
         conn.close()
+        return redirect('/user/%s/' % user['login'])
 
 
 
@@ -140,6 +141,7 @@ def project():
             conn.commit()
             room_created = True
         conn.close()
+        return redirect('/room_info/%s/' % room_info['room_name'])
 
     return render_template(
          "project.html",
@@ -151,7 +153,7 @@ def project():
 
 
 @app.route('/search')
-def search_for_person():
+def search_for_vacancy():
     q = request.args.get('query')
     conn = sqlite3.connect('app.db')
     conn.row_factory = dict_factory
@@ -163,6 +165,17 @@ def search_for_person():
     return render_template('search_results.html', q=q, room_information=room_data)
 
 
+@app.route('/user/search')
+def search_for_user():
+    q = request.args.get('query')
+    conn = sqlite3.connect('app.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE name LIKE '%{q}%' OR login LIKE '%{q}%'"
+    "".format(q=q))
+    users = list(c.fetchall())
+    conn.close()
+    return render_template('search_results_user.html', q=q, users=users)
 
 
 app.run()

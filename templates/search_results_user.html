@@ -9,17 +9,14 @@
     <div class="container">
        You searched for {{q}}
         <br>
-        {% for room_info in room_information: %}
-            <div class="card">
-              <div class="card-body">
-                {{room_info.room_name}}
-              </div>
-            </div>
-        {% endfor %}
+        {% for user in users %}
+            <span class="label label-default">
+                <a href="/user/{{user.login}}/">{{user.login}}</a>
+            </span>
+            <br />
+        {% endfor%}
     </div>
 </body>
 </html>
-
-
 
 
