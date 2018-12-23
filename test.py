@@ -14,6 +14,18 @@ def dict_factory(cursor, row):
 
 
 @app.route('/')
+def room_inf():
+    conn = sqlite3.connect('app.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+
+    c.execute ("SELECT * FROM room_information")
+    room_information = list(c.fetchall())
+    conn.close()
+    return render_template('page03.html', room_information=room_information)
+
+
+@app.route('/user')
 def hello_world():
     # Connecting to DB
     conn = sqlite3.connect('app.db')
@@ -43,6 +55,24 @@ def user_page(login):
     # Close connection
     conn.close()
     return render_template("userpage.html", user=user_data)
+
+
+
+@app.route('/room_info/<room_name>/')
+def room_page(room_name):
+    conn = sqlite3.connect('app.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+
+    # Handler logic here
+    c.execute("SELECT * FROM room_information WHERE room_name='%s'" % room_name)
+    room_data = c.fetchone()
+
+    # Close connection
+    conn.close()
+    return render_template("roompage.html", room_info=room_data)
+
+
 
 
 @app.route('/add_user', methods=['GET', 'POST'])
@@ -98,6 +128,8 @@ def search_for_person():
     users = list(c.fetchall())
     conn.close()
     return render_template('search_results.html', q=q, users=users)
+
+
 
 
 app.run()
