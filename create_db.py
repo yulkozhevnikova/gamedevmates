@@ -6,6 +6,7 @@ conn = sqlite3.connect('app.db')
 # Create a cursor - a
 c = conn.cursor()
 
+c.execute('''DROP TABLE users''')
 
 c.execute('''
 CREATE TABLE users (
@@ -16,18 +17,21 @@ CREATE TABLE users (
 )
 ''')
 
+
 conn.commit()
 
-# Adding some data (feel free to use you own data)
-c.execute('''
-    INSERT INTO users (name, specialization, gamedevexp)
-    VALUES ("Volodya", "Tester", "3")
-''')
-conn.commit()
 
 c.execute('''
-    ALTER TABLE users
+    ALTER TABLE users 
     ADD COLUMN login TEXT
+''')
+
+
+conn.commit()
+
+c.execute('''
+    ALTER TABLE users 
+    ADD COLUMN photo TEXT
 ''')
 conn.commit()
 
@@ -39,11 +43,6 @@ c.execute('''
 conn.commit()
 
 
-c.execute('''
-    ALTER TABLE users
-    ADD COLUMN photo TEXT
-''')
-conn.commit()
 
 
 # Our base data
@@ -52,21 +51,108 @@ users = [
         'login': 'Vas',
         'name': 'Vasiliy',
         'specialization': 'Designer',
-        'gamedevexp': '3'
+        'gamedevexp': '3',
+        'photo': 'http://dic.academic.ru/pictures/wiki/files/79/Official_portrait_of_Barack_Obama.jpg'
     },
     {
         'login': 'jimbo',
         'name': 'Roman Vlasov',
         'specialization': 'Composer',
-        'gamedevexp': '2'
+        'gamedevexp': '2',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'Yoko',
+        'name': 'Yoko Kanno',
+        'specialization': 'Composer',
+        'gamedevexp': '10',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'Vash',
+        'name': 'Vash Stampede',
+        'specialization': 'Tester',
+        'gamedevexp': '4',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'rogue',
+        'name': 'Viktor Efremov',
+        'specialization': 'Composer',
+        'gamedevexp': '2',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'jezz',
+        'name': 'Elena Vlasova',
+        'specialization': 'Designer',
+        'gamedevexp': 'None',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'belli',
+        'name': 'Lester Nygaard',
+        'specialization': 'Programmer',
+        'gamedevexp': '2',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'cody',
+        'name': 'Ivan Melnikov',
+        'specialization': 'Programmer',
+        'gamedevexp': '4',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'Reg',
+        'name': 'Vadim Litvinov',
+        'specialization': 'Manager',
+        'gamedevexp': '3',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'lizza',
+        'name': 'Elizaveta Karpina',
+        'specialization': 'Programmer',
+        'gamedevexp': '5',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'on4k',
+        'name': 'John Doe',
+        'specialization': 'Designer',
+        'gamedevexp': '7',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'Flar',
+        'name': 'Philipp Rogers',
+        'specialization': 'Composer',
+        'gamedevexp': 'None',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'ANTOXA',
+        'name': 'Anton Antonov',
+        'specialization': 'Tester',
+        'gamedevexp': 'None',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
+    },
+    {
+        'login': 'Ana',
+        'name': 'Anna Fedorova',
+        'specialization': 'Programmer',
+        'gamedevexp': '3',
+        'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
     }
+
 ]
 # Adding it in the loop
 for user in users:
     c.execute("INSERT INTO users "
-              "('login', 'name', 'gamedevexp', 'specialization')"
+              "('login', 'name', 'gamedevexp', 'specialization', 'photo')"
               "VALUES "
-              "('{login}','{name}','{gamedevexp}','{specialization}')".format(**user))
+              "('{login}','{name}','{gamedevexp}','{specialization}', '{photo}')".format(**user))
     conn.commit()
 
 # Add second table
@@ -103,9 +189,9 @@ CREATE TABLE users_rooms (
 
 conn.commit()
 
-c.execute("INSERT INTO users_rooms (user_id, room_id) VALUES (1, 1)")
+c.execute("INSERT INTO users_rooms (users_id, room_id) VALUES (1, 1)")
 conn.commit()
-c.execute("INSERT INTO users_rooms (user_id, room_id) VALUES (2, 1)")
+c.execute("INSERT INTO users_rooms (users_id, room_id) VALUES (2, 1)")
 conn.commit()
 
 

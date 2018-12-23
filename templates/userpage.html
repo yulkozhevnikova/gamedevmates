@@ -3,17 +3,36 @@
 
 
 
-<html lang="en">
+<img lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>My Super Appplication</title>
 </head>
-<body>
+<img>
     {% if user %}
-        <h1>Hello, {{user.name}}!</h1>
+     <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <img src="{%if user.photo %}
+                {{user.photo}}
+                {% else %}
+                https://pp.userapi.com/c304804/u165296456/a_38bf1304.jpg?ava=1
+                {%endif%}" class="img-thumbnail">
+            </div>
+            <div class="col-sm">
+                <h1>{{user.name}}</h1>
+                <p>Specialization in game industry is the {{user.specialization}}, experience in field: {{user.gamedevexp}} years</p>
+            </div>
+        </div>
+      </div>
+
     {% else %}
         <div class="alert alert-warning">User not found!</div>
     {% endif %}
 </body>
 </html>
+
+
+
+
