@@ -83,7 +83,6 @@ def add_user():
     error_message = ""
 
     if request.method == 'POST':
-        # add new user data
         user = {}
         user['login'] = request.form.get('login')
         user['name'] = request.form.get('name')
@@ -91,12 +90,10 @@ def add_user():
         user['gamedevexp'] = request.form.get('gamedevexp')
         user['photo'] = request.form.get('photo')
 
-        # save to database
         conn = sqlite3.connect('app.db')
         c = conn.cursor()
         c.execute("SELECT * FROM users where login='%s'" % user['login'])
         if c.fetchone():
-            # user with this login is already in my database
             error_message = "user_exists"
         else:
             c.execute("INSERT INTO users "
@@ -107,8 +104,7 @@ def add_user():
             conn.commit()
             user_created = True
         conn.close()
-        # redirect to user page
-        # return redirect('/user/%s/' % user['login'])
+
 
 
     return render_template(

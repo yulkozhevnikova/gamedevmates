@@ -1,12 +1,12 @@
-# Import sqlite3 module (in standart library - do not need to install)
+
 import sqlite3
 
-# Connect ot Database - in local file app.db
+
 conn = sqlite3.connect('app.db')
-# Create a cursor - a
+
 c = conn.cursor()
 
-c.execute('''DROP TABLE users''')
+
 
 c.execute('''
 CREATE TABLE users (
@@ -43,9 +43,6 @@ c.execute('''
 conn.commit()
 
 
-
-
-# Our base data
 users = [
     {'id': '1',
      'login': 'Vas',
@@ -188,7 +185,8 @@ users = [
     'photo': 'http://b.vimeocdn.com/ts/173/794/173794976_640.jpg'
     }
        ]
-# Adding it in the loop
+
+
 for user in users:
     c.execute("INSERT INTO users "
               "('id', 'login', 'name', 'gamedevexp', 'specialization', 'photo')"
@@ -199,9 +197,7 @@ for user in users:
 
 
 
-# Add second table
 
-c.execute('''DROP TABLE room_information''')
 c.execute('''
 CREATE TABLE room_information (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
