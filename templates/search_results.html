@@ -6,20 +6,26 @@
     <title>Results for {{q}}</title>
 </head>
 <body>
+
+
+<style>
+  body { background: url(https://hdqwalls.com/download/simple-gray-abstract-background-wi-1920x1080.jpg); }
+</style>
+
     <div class="container">
+        <font size="4" color="white" face="cursive">
        You searched for {{q}}
         <br>
         {% for room_info in room_information: %}
-            <div class="card">
+            <div class="card bg-light mb-3">
               <div class="card-body">
-                {{room_info.room_name}}
+                <a href="/room_info/{{room_info.room_name}}/">{{room_info.room_name}}</a>
               </div>
             </div>
         {% endfor %}
     </div>
 </body>
 </html>
-
 
 
 

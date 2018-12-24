@@ -6,35 +6,38 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Gamedevmates</title>
+    <title>Game dev mates</title>
 </head>
 <body>
-
+<style>
+  body { background: url(https://hdqwalls.com/download/simple-gray-abstract-background-wi-1920x1080.jpg); }
+</style>
     <div class="starter-template">
-        <h1>Game Dev Mates</h1>
-        <p class="lead">Find your dream team.<br> Create games.</p>
+        <h1><font size="16" color="white" face="fantasy">Game Dev Mates </font></h1>
+        <p class="lead"><font size="12" color="white" face="cursive">Find your dream team.<br> Create games. </font></p>
     </div>
 
     <div class="container">
-        <h3>Existing projects: </h3>
+        <h3><font size="10" color="white" face="cursive">Existing projects:</font>  </h3>
         {% for room_info in room_information %}
-            <span class="label label-default">
+        <font size="6" color="white" face="cursive"><span class="label label-default">
                 <a href="/room_info/{{room_info.room_name}}/">{{room_info.room_name}}</a>
             </span>
+        </font>
             <br />
         {% endfor%}
         <hr>
-        <a href="/project">Create your project</a>
+        <font size="8" color="white" face="cursive"><a href="/project">Create your project</a>
 
         <hr>
-        <a href="/user">Registered users</a>
+            <a href="/user">Registered users</a></font>
 
     </div>
     </div>
 
     <hr>
     <div class="container">
-        <p class="center">Look for a teams where your profession is needed.<br> Type your specialization below.</p>
+        <font size="6" color="white" face="cursive"><p class="center">Look for a teams where your profession is needed.<br> Type your specialization below.</p> </font>
         <form class="form" method="get" action="/search">
             <input type="search" name="query" class="form-control">
             <button type="submit" class="btn btn-primary">Search</button>
