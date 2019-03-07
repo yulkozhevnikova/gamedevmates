@@ -6,6 +6,7 @@ conn = sqlite3.connect('app.db')
 
 c = conn.cursor()
 
+c.execute('''DROP TABLE users''')
 
 c.execute('''
 CREATE TABLE users (
@@ -195,6 +196,7 @@ for user in users:
     conn.commit()
 
 
+c.execute('''DROP TABLE room_information''')
 
 
 
@@ -226,7 +228,7 @@ for room_info in room_information:
     conn.commit()
 
 c.execute('''
-    INSERT INTO room_information (id, room_name, positions_required, admin_name,)
+    INSERT INTO room_information (id, room_name, positions_required, admin_name)
     VALUES
     (2, "Best Game Ever", "Tester, Designer, Programmer" , "Vas"),
     (3, "Worst Game Ever", "Composer, Programmer" , "sarah"),
